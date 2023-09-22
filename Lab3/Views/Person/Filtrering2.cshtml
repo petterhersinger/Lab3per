@@ -6,7 +6,7 @@
     <div class="form-group col-md-4">
         <form asp-action="Filtrering2">
             <div class="form-group">
-                <select class="form-control" id="Aktivitet" namn="Aktivitet">
+                <select class="form-control" id="Aktivitet" name="Aktivitet">
                     @foreach (Lab3.Models.AktivitetModel AktivitetModel in Model.AktivitetModelLista)
                     {
                         <option value="@AktivitetModel.Id">@AktivitetModel.Aktivitet</option>

@@ -41,7 +41,7 @@ namespace Lab3.Models
                 }
             finally
             {
-    dbConnection.Close();
+            dbConnection.Close();
 }
         }
     }
