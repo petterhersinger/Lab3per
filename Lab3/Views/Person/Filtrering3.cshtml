@@ -1,0 +1,90 @@
+﻿@model Lab3.Models.ViewModelPA
+
+@{
+    int i = 0;
+    if (ViewData["Aktivitet"] != null) { i = (int)ViewData["Aktivitet"]; }
+    string s = ViewBag.message;
+    if (ViewBag.message != null) {
+        
+    }
+}
+<h2>Filtrering</h2>
+<div class="row">
+    <div class="form-group col-md-4">
+        <form asp-action="Filtrering3">
+            <div class="form-group">
+                <select class="form-control" id="Aktivitet" name="Aktivitet">
+                    @foreach (Lab3.Models.AktivitetModel AktivitetModel in Model.AktivitetModelLista)
+                    {
+                        @if (AktivitetModel.Id != i)
+                            {
+                                <option value="@AktivitetModel.Id">@AktivitetModel.Aktivitet</option>
+                            }
+                            else
+                            {
+                                <option value="@AktivitetModel.Id" Selected>@AktivitetModel.Aktivitet</option>
+                            }
+                        }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Filtrera" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<p>Variabel s: @s</p>
+
+<p><b>Personer och aktiviteter med lista från vymodell</b></p>
+<table class="table">
+    <tr>
+        <th>Fornamn</th>
+        <th>Efternamn</th>
+        <th>Aktivitet</th>
+    </tr>
+    @foreach (Lab3.Models.PersonAktivitetModel PersonAktivitetModel in Model.PersonAktivitetModelLista)
+    {
+        <tr>
+            <td>@PersonAktivitetModel.Fornamn</td>
+            <td>@PersonAktivitetModel.Efternamn</td>
+            <td>@PersonAktivitetModel.Aktivitet</td>
+        </tr>
+    }
+
+</table>
+
+<p><b>Aktiviteter - Lista ViewData</b></p>
+@{
+    List<AktivitetModel> AktivitetModelLista2 = (List<AktivitetModel>)ViewData["aktivitetslista"];
+}
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Aktivitet</th>
+    </tr>
+    @foreach (Lab3.Models.AktivitetModel AktivitetModel in AktivitetModelLista2)
+    {
+        <tr>
+            <td>@AktivitetModel.Id</td>
+            <td>@AktivitetModel.Aktivitet</td>
+        </tr>
+    }
+</table>
+
+<p><b>Aktiviteter - Lista ViewBag</b></p>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Aktivitet</th>
+    </tr>
+    @foreach (Lab3.Models.AktivitetModel AktivitetModel in (List<AktivitetModel>)ViewBag.aktivitetslista)
+    {
+        <tr>
+            <td>@AktivitetModel.Id</td>
+            <td>@AktivitetModel.Aktivitet</td>
+        </tr>
+    }
+</table>

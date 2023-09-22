@@ -150,5 +150,50 @@ namespace Lab3.Controllers
 
             return View(myModel);
         }
+        [HttpGet]
+        public ActionResult Filtrering3()
+        {
+            PersonAktivitetMetoder pm = new PersonAktivitetMetoder();
+            AktivitetMetoder am = new AktivitetMetoder();
+
+            ViewModelPA myModel = new ViewModelPA
+            {
+                PersonAktivitetModelLista = pm.GetPersonAktivitetModel(out string errormsg),
+                AktivitetModelLista = am.GetAktivitetLista(out string errormsg2)
+            };
+
+            List<AktivitetModel> AktivitetLista = new List<AktivitetModel>();
+            AktivitetLista = am.GetAktivitetLista(out string errormsg3);
+            ViewBag.error = "1: " + errormsg + "2: " + errormsg2 + "3: " + errormsg3;
+            ViewData["aktivitetslista"] = AktivitetLista;
+
+            ViewBag.aktivitetslista = AktivitetLista;
+
+            return View(myModel);
+        }
+        [HttpPost]
+        public ActionResult Filtrering3(string Aktivitet)
+        {
+            int i = Convert.ToInt32(Aktivitet);
+            PersonAktivitetMetoder pm = new PersonAktivitetMetoder();
+            AktivitetMetoder am = new AktivitetMetoder();
+
+            ViewModelPA myModel = new ViewModelPA
+            {
+                PersonAktivitetModelLista = pm.GetPersonAktivitetModel(out string errormsg,i),
+                AktivitetModelLista = am.GetAktivitetLista(out string errormsg2)
+            };
+
+            List<AktivitetModel> AktivitetLista = new List<AktivitetModel>();
+            AktivitetLista = am.GetAktivitetLista(out string errormsg3);
+            ViewBag.error = "1: " + errormsg + "2: " + errormsg2 + "3: " + errormsg3;
+            ViewData["aktivitetslista"] = AktivitetLista;
+
+            ViewBag.aktivitetslista = AktivitetLista;
+            ViewBag.message = Aktivitet;
+            ViewData["Aktivitet"] = i;
+
+            return View(myModel);
+        }
     }
 }
