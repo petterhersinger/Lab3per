@@ -1,0 +1,40 @@
+﻿@model List<Lab3.Models.PersonAktivitetModel>
+
+@{
+    ViewBag.Title = "SelectAktivitet";
+}
+
+<h2>SelectAktivitet</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Förnamn
+            </th>
+            <th>
+                Efternamn
+            </th>
+            <th>
+                Aktivitet
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fornamn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Efternamn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aktivitet)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,53 @@
+﻿@model Lab3.Models.ViewModelPA
+
+<h2>Filtrering</h2>
+
+<div class="row">
+    <div class="form-group col-md-4">
+        <form asp-action="Filtrering">
+            <div class="form-group">
+                <select class="form-control" id="Aktivitet" namn="Aktivitet">
+                    @foreach (Lab3.Models.AktivitetModel AktivitetModel in Model.AktivitetModelLista)
+                        {
+                        <option value="@AktivitetModel.Id">@AktivitetModel.Aktivitet</option>
+                    }
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p class="float-left"><b>Personer och aktiviteter</b></p>
+
+<table class="table">
+        <tr>
+            <th>Fornamn</th>
+            <th>Efternamn</th>
+            <th>Aktivitet</th>
+        </tr>
+    @foreach (Lab3.Models.PersonAktivitetModel PersonAktivitetModel in Model.PersonAktivitetModelLista)
+        {
+        <tr>
+            <td>@PersonAktivitetModel.Fornamn</td>
+            <td>@PersonAktivitetModel.Efternamn</td>
+            <td>@PersonAktivitetModel.Aktivitet</td>
+        </tr>
+    }
+    
+</table>
+
+<p><b>Aktiviteter</b></p>'
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Aktivitet</th>
+    </tr>
+    @foreach (Lab3.Models.AktivitetModel AktivitetModel in Model.AktivitetModelLista)
+        {
+            <tr>
+                <td>@AktivitetModel.Id</td>
+                <td>@AktivitetModel.Aktivitet</td>
+            </tr>
+    }
+</table>
