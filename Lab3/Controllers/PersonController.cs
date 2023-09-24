@@ -195,5 +195,51 @@ namespace Lab3.Controllers
 
             return View(myModel);
         }
+        [HttpGet]
+        public ActionResult Sortering(string sortering)
+        {
+            PersonAktivitetMetoder pm = new PersonAktivitetMetoder();
+            AktivitetMetoder am = new AktivitetMetoder();
+
+            List<PersonAktivitetModel> PersonAktivitetModelLista = pm.GetPersonAktivitetModel(out string errormsg);
+
+            string aktuellRiktning = HttpContext.Session.GetString("Riktning");
+
+            bool stigande = true;
+
+            if (aktuellRiktning != null)
+            {
+                stigande = aktuellRiktning == "asc";
+            }
+
+            ViewBag.Riktning = stigande ? "asc" : "desc";
+
+            if (sortering == "fornamn")
+            {
+                if (stigande)
+                {
+                    PersonAktivitetModelLista = PersonAktivitetModelLista.OrderBy(s => s.Fornamn).ToList();
+                    HttpContext.Session.SetString("Riktning", "desc");
+                }
+                else
+                {
+                    PersonAktivitetModelLista = PersonAktivitetModelLista.OrderByDescending(s => s.Fornamn).ToList();
+                    HttpContext.Session.SetString("Riktning", "asc");
+                }
+            }
+            else
+            {
+            }
+
+            ViewModelPA myModel = new ViewModelPA
+            {
+                PersonAktivitetModelLista = PersonAktivitetModelLista,
+                AktivitetModelLista = am.GetAktivitetLista(out string errormsg2)
+            };
+
+            ViewBag.sortera = sortering;
+
+            return View(myModel);
+        }
     }
 }

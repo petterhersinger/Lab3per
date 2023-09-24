@@ -1,0 +1,72 @@
+﻿@model Lab3.Models.ViewModelPA
+
+@using Microsoft.AspNetCore.Http
+
+@{
+    int i = 0;
+    if (ViewData["Aktivitet"] != null) { i = (int)ViewData["Aktivitet"]; }
+    string s = ViewBag.message;
+    if (ViewBag.message != null)
+    {
+
+    }
+    ViewData["Title"] = "Sortering";
+}
+<h2>Sortering</h2>
+
+<p><b>Dropdown med lista från vy-modell</b></p>
+
+<div class="row">
+    <div class="form-group col-md-4">
+        <form asp-action="Filtrering3">
+            <div class="form-group">
+                <select class="form-control" id="Aktivitet" name="Aktivitet">
+                    @foreach (Lab3.Models.AktivitetModel AktivitetModel in Model.AktivitetModelLista)
+                    {
+                        @if (AktivitetModel.Id != i)
+                        {
+                            <option value="@AktivitetModel.Id">@AktivitetModel.Aktivitet</option>
+                        }
+                        else
+                        {
+                            <option value="@AktivitetModel.Id" Selected>@AktivitetModel.Aktivitet</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Filtrera" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>
+<p>Querystring sortera innehåller: @ViewBag.sortera</p>
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="Sortering?sortering=fornamn">Fornamn
+                @if (ViewBag.sortera == "fornamn")
+                {
+                    if ((string)ViewBag.Riktning == "asc")
+                    {
+                        <p>upp</p>
+                    } else
+                    {
+                        <p>ner</p>
+                    }
+                }
+            </a>
+            </th>
+        <th>Efternamn</th>
+        <th>Aktivitet</th>
+    </tr>
+    @foreach (Lab3.Models.PersonAktivitetModel PersonAktivitetModel in Model.PersonAktivitetModelLista)
+    {
+        <tr>
+            <td>@PersonAktivitetModel.Fornamn</td>
+            <td>@PersonAktivitetModel.Efternamn</td>
+            <td>@PersonAktivitetModel.Aktivitet</td>
+        </tr>
+    }
+</table>
