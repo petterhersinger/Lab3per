@@ -1,0 +1,55 @@
+﻿@model Lab3.Models.PersonDetalj
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>PersonDetalj</h4>
+    <hr />
+    Ev. fel: @ViewBag.error
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Fornamn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Fornamn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Efternamn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Efternamn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Epost)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Epost)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Fodelsear)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Fodelsear)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Bor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bor)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

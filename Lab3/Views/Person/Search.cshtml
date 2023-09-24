@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Lab3.Models.PersonDetalj>
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h1>Search</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-controller="Person" asp-action="Search">
+    <p>
+        Search field: <input type="text" name="input" />
+        <input type="submit" value="Filter" />
+    </p>
+
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fornamn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Efternamn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Epost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fodelsear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fornamn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Efternamn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Epost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fodelsear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

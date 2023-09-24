@@ -75,6 +75,60 @@ namespace Lab3.Models
             }
         }
 
+        public PersonDetalj GetPerson(int person_id, out string errormsg)
+        {
+            SqlConnection dbConnection = new SqlConnection();
+
+            dbConnection.ConnectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = Hobbys; Integrated Security = True";
+
+            String sqlstring = "Select * From Person Where Id = @id";
+            SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
+            dbCommand.Parameters.Add("id", SqlDbType.Int).Value = person_id;
+
+            SqlDataAdapter myAdapter = new SqlDataAdapter(dbCommand);
+            DataSet myDS = new DataSet();
+
+            //List<PersonDetalj> PersonList = new List<PersonDetalj>();
+            try
+            {
+                dbConnection.Open();
+
+                myAdapter.Fill(myDS, "myPerson");
+
+                int count = 0;
+                int i = 0;
+                count = myDS.Tables["myPerson"].Rows.Count;
+
+                if (count > 0)
+                {
+                        PersonDetalj pd = new PersonDetalj();
+                        pd.Fornamn = myDS.Tables["myPerson"].Rows[i]["Fornamn"].ToString();
+                        pd.Efternamn = myDS.Tables["myPerson"].Rows[i]["Efternamn"].ToString();
+                        pd.Epost = myDS.Tables["myPerson"].Rows[i]["Epost"].ToString();
+                        pd.Bor = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Bor"]);
+                        pd.Fodelsear = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Fodelsear"]);
+                        pd.Id = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Id"]);
+
+                    errormsg = "";
+                    return pd;
+                }
+                else
+                {
+                    errormsg = "Det hämtas ingen Person";
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                errormsg = e.Message;
+                return null;
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }
+
         public List<PersonDetalj> GetPersonWithDataSet(out string errormsg)
         {
             SqlConnection dbConnection = new SqlConnection();
@@ -208,6 +262,55 @@ namespace Lab3.Models
                 }
                 reader.Close();
                 return AktivitetLista;
+            }
+            catch (Exception e)
+            {
+                errormsg = e.Message;
+                return null;
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }
+        public List<PersonDetalj> SearchPerson (string input, out string errormsg)
+        {
+            SqlConnection dbConnection = new SqlConnection();
+
+            dbConnection.ConnectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = Hobbys; Integrated Security = True";
+
+            String sqlString = "SELECT * FROM Person WHERE Fornamn LIKE @input OR Efternamn LIKE @input;";
+            SqlCommand dbCommand = new SqlCommand(sqlString, dbConnection);
+
+            dbCommand.Parameters.Add("input", SqlDbType.NVarChar, 255).Value = input;
+
+            SqlDataReader reader = null;
+
+            List<PersonDetalj> personList = new List<PersonDetalj>();
+
+            errormsg = "";
+
+            try
+            {
+                dbConnection.Open();
+
+                reader = dbCommand.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    PersonDetalj Person = new PersonDetalj();
+                    Person.Fornamn = reader["Fornamn"].ToString();
+                    Person.Efternamn = reader["Efternamn"].ToString();
+                    Person.Epost = reader["Epost"].ToString();
+                    Person.Bor = Convert.ToInt16(reader["Bor"]);
+                    Person.Fodelsear = Convert.ToInt16(reader["Fodelsear"]);
+                    Person.Id = Convert.ToInt16(reader["Id"]);
+
+                    personList.Add(Person);
+                }
+                reader.Close();
+                return personList;
+
             }
             catch (Exception e)
             {

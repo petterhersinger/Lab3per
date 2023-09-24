@@ -69,6 +69,25 @@ namespace Lab3.Controllers
             ViewBag.error = error;
             return View(PersonList);
         }
+        public ActionResult SelectWithDataSet2()
+        {
+            List<PersonDetalj> PersonList = new List<PersonDetalj>();
+            PersonMetoder pm = new PersonMetoder();
+            string error = "";
+            PersonList = pm.GetPersonWithDataSet(out error);
+            ViewBag.antal = HttpContext.Session.GetString("antal");
+            ViewBag.error = error;
+            return View(PersonList);
+        }
+
+        public ActionResult Details(int id)
+        {
+            PersonDetalj Person = new PersonDetalj();
+            PersonMetoder pm = new PersonMetoder();
+            Person = pm.GetPerson(id, out string error);
+            ViewBag.error = error;
+            return View(Person);
+        }
 
         public ActionResult SelectWithDataReader()
         {
@@ -186,6 +205,7 @@ namespace Lab3.Controllers
 
             List<AktivitetModel> AktivitetLista = new List<AktivitetModel>();
             AktivitetLista = am.GetAktivitetLista(out string errormsg3);
+
             ViewBag.error = "1: " + errormsg + "2: " + errormsg2 + "3: " + errormsg3;
             ViewData["aktivitetslista"] = AktivitetLista;
 
@@ -241,5 +261,35 @@ namespace Lab3.Controllers
 
             return View(myModel);
         }
+        [HttpGet]
+        public IActionResult Search()
+        {
+            List<PersonDetalj> personLista = new List<PersonDetalj>();
+            PersonMetoder pm = new PersonMetoder();
+            string error = "";
+            personLista = pm.GetPersonWithReader(out error);
+            ViewBag.error = error;
+            return View(personLista);
+        }
+
+
+        [HttpPost]
+        public IActionResult Search(string input)
+        {
+            PersonMetoder pm = new PersonMetoder();
+            string error = "";
+
+            List<PersonDetalj> person = pm.SearchPerson(input, out string errormsg);
+
+            ViewBag.error = errormsg;
+
+            if (person != null)
+            {
+                return View(person);
+            }
+
+            return RedirectToAction("SelectWithDataSet");
+        }
+
     }
 }
