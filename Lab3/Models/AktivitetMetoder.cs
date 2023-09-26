@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 namespace Lab3.Models
 {
