@@ -45,14 +45,16 @@ namespace Lab3.Models
             }
         }
 
-        public int DeleteKarlsson(out string errormsg)
+        public int DeletePerson(int person_id, out string errormsg)
         {
             SqlConnection dbConnection = new SqlConnection();
 
             dbConnection.ConnectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = Hobbys; Integrated Security = True";
 
-            String sqlstring = "DELETE FROM Person WHERE Efternamn = 'Karlsson'";
+            String sqlstring = "DELETE FROM Person WHERE Id = @id";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
+
+            dbCommand.Parameters.Add("id", SqlDbType.Int).Value = person_id;
 
             try
             {
@@ -61,7 +63,7 @@ namespace Lab3.Models
                 i = dbCommand.ExecuteNonQuery();
                 if (i == 1) { errormsg = ""; }
                 else
-                { errormsg = "Det skapas inte en person i databasen."; }
+                { errormsg = "Det raderas inte en person i databasen."; }
                 return (i);
             }
             catch (Exception e)
@@ -74,6 +76,50 @@ namespace Lab3.Models
                 dbConnection.Close();
             }
         }
+
+        public int UpdatePerson(int person_id, PersonDetalj updatedPerson, out string errormsg)
+        {
+            SqlConnection dbConnection = new SqlConnection();
+
+            dbConnection.ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Hobbys;Integrated Security=True";
+
+            String sqlstring = "UPDATE Person SET Fornamn = @Fornamn, Efternamn = @Efternamn, Epost = @Epost, Bor = @Bor, Fodelsear = @Fodelsear WHERE Id = @Id";
+            SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
+
+            dbCommand.Parameters.Add("Fornamn", SqlDbType.VarChar, 255).Value = updatedPerson.Fornamn;
+            dbCommand.Parameters.Add("Efternamn", SqlDbType.VarChar, 255).Value = updatedPerson.Efternamn;
+            dbCommand.Parameters.Add("Epost", SqlDbType.VarChar, 255).Value = updatedPerson.Epost;
+            dbCommand.Parameters.Add("Bor", SqlDbType.Int).Value = updatedPerson.Bor;
+            dbCommand.Parameters.Add("Fodelsear", SqlDbType.Int).Value = updatedPerson.Fodelsear;
+            dbCommand.Parameters.Add("Id", SqlDbType.Int).Value = person_id;
+
+            try
+            {
+                dbConnection.Open();
+                int rowsAffected = dbCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    errormsg = ""; // Success
+                }
+                else
+                {
+                    errormsg = "Ingen uppdatering i db."; // Person not found
+                }
+
+                return rowsAffected;
+            }
+            catch (Exception e)
+            {
+                errormsg = e.Message; // Handle any exceptions
+                return 0; // Return 0 to indicate failure
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }
+
 
         public PersonDetalj GetPerson(int person_id, out string errormsg)
         {
@@ -88,7 +134,7 @@ namespace Lab3.Models
             SqlDataAdapter myAdapter = new SqlDataAdapter(dbCommand);
             DataSet myDS = new DataSet();
 
-            //List<PersonDetalj> PersonList = new List<PersonDetalj>();
+            List<PersonDetalj> PersonList = new List<PersonDetalj>();
             try
             {
                 dbConnection.Open();

@@ -30,28 +30,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fornamn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Efternamn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Epost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fodelsear)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fornamn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Efternamn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Epost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fodelsear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {person_id = item.Id}) |
+                    @Html.ActionLink("Details", "Details", new {person_id = item.Id}) |
+                    @Html.ActionLink("Delete", "Delete", new {person_id = item.Id})
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
